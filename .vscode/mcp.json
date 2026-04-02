@@ -1,0 +1,16 @@
+{
+  "servers": {
+    "sqlite": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--connection-string", "/home/tomaszkubat/projects/home-automation/apps/task-board/tasks.db"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/tomaszkubat/projects/home-automation"]
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "/home/tomaszkubat/projects/home-automation"]
+    }
+  }
+}
