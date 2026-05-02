@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from models import db, Task
+from models import db, Task, User
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tasks.db"
@@ -15,27 +15,56 @@ def index():
 
 @app.route("/add", methods=["GET", "POST"])
 def add_task():
+    users = User.query.all()
     if request.method == "POST":
         title = request.form["title"]
         description = request.form.get("description", "")
         status = request.form.get("status", "pending")
-        new_task = Task(title=title, description=description, status=status)
+        assigned_to = request.form.get("assigned_to")
+        assigned_to = (
+            int(assigned_to) if assigned_to and assigned_to.isdigit() else None
+        )
+        new_task = Task(
+            title=title,
+            description=description,
+            status=status,
+            assigned_to=assigned_to,
+        )
         db.session.add(new_task)
         db.session.commit()
         return redirect(url_for("index"))
-    return render_template("add_task.html")
+    return render_template("add_task.html", users=users)
+
+
+@app.route("/add_user", methods=["GET", "POST"])
+def add_user():
+    if request.method == "POST":
+        name = request.form["name"].strip()
+        user_type = request.form.get("user_type", "adult")
+        avatar = request.form.get("avatar", "")
+        if name:
+            new_user = User(name=name, user_type=user_type, avatar=avatar)
+            db.session.add(new_user)
+            db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("add_user.html")
 
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit_task(task_id):
     task = Task.query.get_or_404(task_id)
+    users = User.query.all()
     if request.method == "POST":
         task.title = request.form["title"]
         task.description = request.form.get("description", "")
         task.status = request.form.get("status", "pending")
+        assigned_to = request.form.get("assigned_to")
+        task.assigned_to = (
+            int(assigned_to) if assigned_to and assigned_to.isdigit() else None
+        )
         db.session.commit()
         return redirect(url_for("index"))
-    return render_template("edit_task.html", task=task)
+    return render_template("edit_task.html", task=task, users=users)
 
 
 @app.route("/delete/<int:task_id>")

@@ -9,6 +9,13 @@
     <input type="text" id="title" name="title" value="{{ task.title }}" required><br>
     <label for="description">Description:</label>
     <textarea id="description" name="description">{{ task.description }}</textarea><br>
+    <label for="assigned_to">Assign to:</label>
+    <select id="assigned_to" name="assigned_to">
+        <option value="">-- Select User --</option>
+        {% for user in users %}
+        <option value="{{ user.id }}" {% if task.assigned_to == user.id %}selected{% endif %}>{{ user.avatar }} {{ user.name }}</option>
+        {% endfor %}
+    </select><br>
     <label for="status">Status:</label>
     <select id="status" name="status">
         <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
