@@ -11,3 +11,8 @@ setup-dev:
 	@echo "==============================================================="
 	pre-commit install
 	@echo "Development environment setup complete."
+
+run: setup-dev
+	@echo "Running application..."
+	@echo "==============================================================="
+	cd apps/task-board && python3 app.py
