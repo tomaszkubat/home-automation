@@ -13,6 +13,7 @@
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('add_task') }}">Add Task</a>
             <a href="{{ url_for('add_user') }}">Add User</a>
+            <a href="{{ url_for('reset_all') }}" onclick="return confirm('Are you sure you want to delete all tasks and reset all points? This cannot be undone!')" style="background-color: #dc3545; color: white; margin-left: 1rem;">Reset All</a>
         </nav>
     </header>
     <main>

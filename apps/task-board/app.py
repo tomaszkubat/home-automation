@@ -125,6 +125,19 @@ def delete_task(task_id):
     return redirect(url_for("index"))
 
 
+@app.route("/reset_all")
+def reset_all():
+    # Delete all tasks
+    Task.query.delete()
+
+    # Reset all users' points to 0 (though we don't actually store points on users,
+    # this is just in case we add that feature later)
+    # For now, this just deletes all tasks which effectively resets everything
+
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()

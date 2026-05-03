@@ -66,6 +66,17 @@ button:hover {
     background-color: #555;
 }
 
+nav a:last-child {
+    background-color: #333 !important;
+    color: white !important;
+    border: 1px solid #333;
+}
+
+nav a:last-child:hover {
+    background-color: #555 !important;
+    border-color: #555 !important;
+}
+
 .avatar {
     font-size: 2em;
     flex-shrink: 0;
