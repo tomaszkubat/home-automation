@@ -22,6 +22,8 @@
         <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
         <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
     </select><br>
+    <label for="points">Points:</label>
+    <input type="number" id="points" name="points" value="{{ task.points or 0 }}" min="0"><br>
     <button type="submit">Update Task</button>
 </form>
 {% endblock %}

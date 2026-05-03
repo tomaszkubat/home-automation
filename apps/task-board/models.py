@@ -10,6 +10,7 @@ class Task(db.Model):
     status = db.Column(
         db.String(20), default="pending"
     )  # pending, in_progress, completed
+    points = db.Column(db.Integer, default=0)  # Points for completing the task
     assigned_to = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     assigned_user = db.relationship("User", backref="tasks")
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())

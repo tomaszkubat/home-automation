@@ -13,12 +13,18 @@
         <div class="user-column">
             <div class="user-header">
                 <span class="avatar">{{ user.avatar }}</span>
-                <h3>{{ user.name }}</h3>
+                <div class="user-info">
+                    <h3>{{ user.name }}</h3>
+                    <div class="points-total">⭐ {{ children_points_total.get(user, 0) }} pts earned</div>
+                </div>
             </div>
             <div class="task-list">
                 {% for task in user_tasks %}
                 <div class="task-card">
                     <strong>{{ task.title }}</strong> - {{ task.status }}
+                    {% if task.points and task.points > 0 %}
+                    <span class="task-points">⭐ {{ task.points }} pts</span>
+                    {% endif %}
                     <p>{{ task.description }}</p>
                     <div class="task-actions">
                         <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
@@ -36,18 +42,24 @@
 <!-- Adults Section -->
 {% if adult_users %}
 <div class="user-group">
-    <h2 class="group-title">🧑 Adults</h2>
+    <h2 class="group-title">🧑‍💼 Adults</h2>
     <div class="task-board">
         {% for user, user_tasks in adult_tasks.items() %}
         <div class="user-column">
             <div class="user-header">
                 <span class="avatar">{{ user.avatar }}</span>
-                <h3>{{ user.name }}</h3>
+                <div class="user-info">
+                    <h3>{{ user.name }}</h3>
+                    <div class="points-total">⭐ {{ adult_points_total.get(user, 0) }} points</div>
+                </div>
             </div>
             <div class="task-list">
                 {% for task in user_tasks %}
                 <div class="task-card">
                     <strong>{{ task.title }}</strong> - {{ task.status }}
+                    {% if task.points and task.points > 0 %}
+                    <span class="task-points">⭐ {{ task.points }} pts</span>
+                    {% endif %}
                     <p>{{ task.description }}</p>
                     <div class="task-actions">
                         <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
@@ -75,6 +87,9 @@
                 {% for task in unassigned_tasks %}
                 <div class="task-card">
                     <strong>{{ task.title }}</strong> - {{ task.status }}
+                    {% if task.points and task.points > 0 %}
+                    <span class="task-points">⭐ {{ task.points }} pts</span>
+                    {% endif %}
                     <p>{{ task.description }}</p>
                     <div class="task-actions">
                         <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>

@@ -16,9 +16,11 @@ def index():
     children_users = [user for user in users if user.user_type == "child"]
     adult_users = [user for user in users if user.user_type == "adult"]
 
-    # Group tasks by user type
+    # Group tasks by user type and calculate completed points totals
     children_tasks = {}
     adult_tasks = {}
+    children_points_total = {}
+    adult_points_total = {}
     unassigned_tasks = []
 
     for task in tasks:
@@ -26,11 +28,17 @@ def index():
             if task.assigned_user.user_type == "child":
                 if task.assigned_user not in children_tasks:
                     children_tasks[task.assigned_user] = []
+                    children_points_total[task.assigned_user] = 0
                 children_tasks[task.assigned_user].append(task)
+                if task.status == "completed":
+                    children_points_total[task.assigned_user] += task.points or 0
             else:  # adult
                 if task.assigned_user not in adult_tasks:
                     adult_tasks[task.assigned_user] = []
+                    adult_points_total[task.assigned_user] = 0
                 adult_tasks[task.assigned_user].append(task)
+                if task.status == "completed":
+                    adult_points_total[task.assigned_user] += task.points or 0
         else:
             unassigned_tasks.append(task)
 
@@ -41,6 +49,8 @@ def index():
         unassigned_tasks=unassigned_tasks,
         children_users=children_users,
         adult_users=adult_users,
+        children_points_total=children_points_total,
+        adult_points_total=adult_points_total,
     )
 
 
@@ -51,6 +61,8 @@ def add_task():
         title = request.form["title"]
         description = request.form.get("description", "")
         status = request.form.get("status", "pending")
+        points = request.form.get("points", "0")
+        points = int(points) if points.isdigit() else 0
         assigned_to = request.form.get("assigned_to")
         assigned_to = (
             int(assigned_to) if assigned_to and assigned_to.isdigit() else None
@@ -59,6 +71,7 @@ def add_task():
             title=title,
             description=description,
             status=status,
+            points=points,
             assigned_to=assigned_to,
         )
         db.session.add(new_task)
@@ -89,6 +102,8 @@ def edit_task(task_id):
         task.title = request.form["title"]
         task.description = request.form.get("description", "")
         task.status = request.form.get("status", "pending")
+        points = request.form.get("points", "0")
+        task.points = int(points) if points.isdigit() else 0
         assigned_to = request.form.get("assigned_to")
         task.assigned_to = (
             int(assigned_to) if assigned_to and assigned_to.isdigit() else None
