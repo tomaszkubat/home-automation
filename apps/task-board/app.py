@@ -16,11 +16,24 @@ def index():
     children_users = [user for user in users if user.user_type == "child"]
     adult_users = [user for user in users if user.user_type == "adult"]
 
-    # Group tasks by user type and calculate completed points totals
-    children_tasks = {}
-    adult_tasks = {}
+    # First, calculate points totals from ALL tasks (including completed ones)
     children_points_total = {}
     adult_points_total = {}
+
+    for task in tasks:
+        if task.assigned_user and task.status == "completed":
+            if task.assigned_user.user_type == "child":
+                if task.assigned_user not in children_points_total:
+                    children_points_total[task.assigned_user] = 0
+                children_points_total[task.assigned_user] += task.points or 0
+            else:  # adult
+                if task.assigned_user not in adult_points_total:
+                    adult_points_total[task.assigned_user] = 0
+                adult_points_total[task.assigned_user] += task.points or 0
+
+    # Now group only NON-COMPLETED tasks for display
+    children_tasks = {}
+    adult_tasks = {}
     unassigned_tasks = []
 
     for task in tasks:
@@ -32,17 +45,11 @@ def index():
             if task.assigned_user.user_type == "child":
                 if task.assigned_user not in children_tasks:
                     children_tasks[task.assigned_user] = []
-                    children_points_total[task.assigned_user] = 0
                 children_tasks[task.assigned_user].append(task)
-                if task.status == "completed":
-                    children_points_total[task.assigned_user] += task.points or 0
             else:  # adult
                 if task.assigned_user not in adult_tasks:
                     adult_tasks[task.assigned_user] = []
-                    adult_points_total[task.assigned_user] = 0
                 adult_tasks[task.assigned_user].append(task)
-                if task.status == "completed":
-                    adult_points_total[task.assigned_user] += task.points or 0
         else:
             unassigned_tasks.append(task)
 
