@@ -26,10 +26,12 @@
                     <span class="task-points">⭐ {{ task.points }} pts</span>
                     {% endif %}
                     <p>{{ task.description }}</p>
+                    {% if admin %}
                     <div class="task-actions">
-                        <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
-                        <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                        <a href="{{ url_for('admin_edit_task', task_id=task.id) }}">Edit</a>
+                        <a href="{{ url_for('admin_delete_task', task_id=task.id) }}">Delete</a>
                     </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -61,10 +63,12 @@
                     <span class="task-points">⭐ {{ task.points }} points</span>
                     {% endif %}
                     <p>{{ task.description }}</p>
+                    {% if admin %}
                     <div class="task-actions">
-                        <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
-                        <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                        <a href="{{ url_for('admin_edit_task', task_id=task.id) }}">Edit</a>
+                        <a href="{{ url_for('admin_delete_task', task_id=task.id) }}">Delete</a>
                     </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -91,10 +95,12 @@
                     <span class="task-points">⭐ {{ task.points }} pts</span>
                     {% endif %}
                     <p>{{ task.description }}</p>
+                    {% if admin %}
                     <div class="task-actions">
-                        <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
-                        <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                        <a href="{{ url_for('admin_edit_task', task_id=task.id) }}">Edit</a>
+                        <a href="{{ url_for('admin_delete_task', task_id=task.id) }}">Delete</a>
                     </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -104,6 +110,12 @@
 {% endif %}
 
 {% if not children_users and not adult_users and not unassigned_tasks %}
-<p>No tasks yet. <a href="{{ url_for('add_task') }}">Add one!</a></p>
+<p>No tasks yet.
+    {% if admin %}
+        <a href="{{ url_for('admin_add_task') }}">Add one!</a>
+    {% else %}
+        <a href="{{ url_for('admin_index') }}">Visit admin</a> to add tasks.
+    {% endif %}
+</p>
 {% endif %}
 {% endblock %}

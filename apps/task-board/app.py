@@ -7,8 +7,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
 
-@app.route("/")
-def index():
+def build_board_context():
     tasks = Task.query.all()
     users = User.query.all()
 
@@ -53,20 +52,34 @@ def index():
         else:
             unassigned_tasks.append(task)
 
-    return render_template(
-        "index.html",
-        children_tasks=children_tasks,
-        adult_tasks=adult_tasks,
-        unassigned_tasks=unassigned_tasks,
-        children_users=children_users,
-        adult_users=adult_users,
-        children_points_total=children_points_total,
-        adult_points_total=adult_points_total,
-    )
+    return {
+        "children_tasks": children_tasks,
+        "adult_tasks": adult_tasks,
+        "unassigned_tasks": unassigned_tasks,
+        "children_users": children_users,
+        "adult_users": adult_users,
+        "children_points_total": children_points_total,
+        "adult_points_total": adult_points_total,
+    }
 
 
-@app.route("/add", methods=["GET", "POST"])
-def add_task():
+@app.route("/")
+def index():
+    context = build_board_context()
+    context["admin"] = False
+    return render_template("index.html", **context)
+
+
+@app.route("/admin/")
+@app.route("/admin")
+def admin_index():
+    context = build_board_context()
+    context["admin"] = True
+    return render_template("index.html", **context)
+
+
+@app.route("/admin/add", methods=["GET", "POST"])
+def admin_add_task():
     users = User.query.all()
     if request.method == "POST":
         title = request.form["title"]
@@ -87,12 +100,12 @@ def add_task():
         )
         db.session.add(new_task)
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("admin_index"))
     return render_template("add_task.html", users=users)
 
 
-@app.route("/add_user", methods=["GET", "POST"])
-def add_user():
+@app.route("/admin/add_user", methods=["GET", "POST"])
+def admin_add_user():
     if request.method == "POST":
         name = request.form["name"].strip()
         user_type = request.form.get("user_type", "adult")
@@ -101,12 +114,12 @@ def add_user():
             new_user = User(name=name, user_type=user_type, avatar=avatar)
             db.session.add(new_user)
             db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("admin_index"))
     return render_template("add_user.html")
 
 
-@app.route("/edit/<int:task_id>", methods=["GET", "POST"])
-def edit_task(task_id):
+@app.route("/admin/edit/<int:task_id>", methods=["GET", "POST"])
+def admin_edit_task(task_id):
     task = Task.query.get_or_404(task_id)
     users = User.query.all()
     if request.method == "POST":
@@ -120,20 +133,20 @@ def edit_task(task_id):
             int(assigned_to) if assigned_to and assigned_to.isdigit() else None
         )
         db.session.commit()
-        return redirect(url_for("index"))
+        return redirect(url_for("admin_index"))
     return render_template("edit_task.html", task=task, users=users)
 
 
-@app.route("/delete/<int:task_id>")
-def delete_task(task_id):
+@app.route("/admin/delete/<int:task_id>")
+def admin_delete_task(task_id):
     task = Task.query.get_or_404(task_id)
     db.session.delete(task)
     db.session.commit()
-    return redirect(url_for("index"))
+    return redirect(url_for("admin_index"))
 
 
-@app.route("/reset_all")
-def reset_all():
+@app.route("/admin/reset_all")
+def admin_reset_all():
     # Delete all tasks
     Task.query.delete()
 
@@ -142,7 +155,7 @@ def reset_all():
     # For now, this just deletes all tasks which effectively resets everything
 
     db.session.commit()
-    return redirect(url_for("index"))
+    return redirect(url_for("admin_index"))
 
 
 if __name__ == "__main__":
