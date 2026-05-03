@@ -24,6 +24,10 @@ def index():
     unassigned_tasks = []
 
     for task in tasks:
+        # Skip completed tasks - don't show them on the board
+        if task.status == "completed":
+            continue
+
         if task.assigned_user:
             if task.assigned_user.user_type == "child":
                 if task.assigned_user not in children_tasks:
