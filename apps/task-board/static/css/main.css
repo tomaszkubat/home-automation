@@ -65,3 +65,94 @@ button {
 button:hover {
     background-color: #555;
 }
+
+.avatar {
+    font-size: 2em;
+}
+
+/* Task Board Styles */
+.task-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.user-column {
+    min-width: 300px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ddd;
+}
+
+.user-header h3 {
+    margin: 0.5rem 0 0 0;
+    color: #333;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 4px solid #007bff;
+}
+
+.task-card strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.task-card p {
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.task-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-actions a {
+    padding: 0.25rem 0.5rem;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.task-actions a:hover {
+    background-color: #0056b3;
+}
+
+/* User Group Styles */
+.user-group {
+    margin-bottom: 2rem;
+}
+
+.group-title {
+    font-size: 1.5em;
+    color: #333;
+    margin: 1rem 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #ddd;
+    text-align: center;
+}

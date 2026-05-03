@@ -10,7 +10,38 @@ db.init_app(app)
 @app.route("/")
 def index():
     tasks = Task.query.all()
-    return render_template("index.html", tasks=tasks)
+    users = User.query.all()
+
+    # Group users by type (children first, then adults)
+    children_users = [user for user in users if user.user_type == "child"]
+    adult_users = [user for user in users if user.user_type == "adult"]
+
+    # Group tasks by user type
+    children_tasks = {}
+    adult_tasks = {}
+    unassigned_tasks = []
+
+    for task in tasks:
+        if task.assigned_user:
+            if task.assigned_user.user_type == "child":
+                if task.assigned_user not in children_tasks:
+                    children_tasks[task.assigned_user] = []
+                children_tasks[task.assigned_user].append(task)
+            else:  # adult
+                if task.assigned_user not in adult_tasks:
+                    adult_tasks[task.assigned_user] = []
+                adult_tasks[task.assigned_user].append(task)
+        else:
+            unassigned_tasks.append(task)
+
+    return render_template(
+        "index.html",
+        children_tasks=children_tasks,
+        adult_tasks=adult_tasks,
+        unassigned_tasks=unassigned_tasks,
+        children_users=children_users,
+        adult_users=adult_users,
+    )
 
 
 @app.route("/add", methods=["GET", "POST"])
