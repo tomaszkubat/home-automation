@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+<h2>Add New User</h2>
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="user_type">Type:</label>
+    <select id="user_type" name="user_type">
+        <option value="adult">Adult</option>
+        <option value="child">Child</option>
+    </select><br>
+    <label for="avatar">Avatar:</label>
+    <select id="avatar" name="avatar">
+        <option value="🐻">🐻 Bear</option>
+        <option value="🐱">🐱 Cat</option>
+        <option value="🐶">🐶 Dog</option>
+        <option value="🦊">🦊 Fox</option>
+        <option value="🐸">🐸 Frog</option>
+        <option value="🐹">🐹 Hamster</option>
+        <option value="🐨">🐨 Koala</option>
+        <option value="🦁">🦁 Lion</option>
+        <option value="🐭">🐭 Mouse</option>
+        <option value="🐼">🐼 Panda</option>
+        <option value="🐰">🐰 Rabbit</option>
+        <option value="🐯">🐯 Tiger</option>
+    </select><br>
+    <button type="submit">Add User</button>
+</form>
+{% endblock %}

@@ -65,3 +65,144 @@ button {
 button:hover {
     background-color: #555;
 }
+
+nav a:last-child {
+    background-color: #333 !important;
+    color: white !important;
+    border: 1px solid #333;
+}
+
+nav a:last-child:hover {
+    background-color: #555 !important;
+    border-color: #555 !important;
+}
+
+.avatar {
+    font-size: 2em;
+    flex-shrink: 0;
+}
+
+/* Task Board Styles */
+.task-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.user-column {
+    min-width: 300px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-header {
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-info {
+    flex: 1;
+    text-align: left;
+}
+
+.user-info h3 {
+    margin: 0 0 0.25rem 0;
+    color: #333;
+}
+
+.points-total {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 0.25rem;
+    font-weight: bold;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-card {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 4px solid #007bff;
+}
+
+.task-card.status-in_progress {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3); }
+    50% { box-shadow: 0 2px 12px rgba(40, 167, 69, 0.5); }
+    100% { box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3); }
+}
+
+.task-card strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.task-points {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.task-card p {
+    margin: 0.5rem 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.task-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-actions a {
+    padding: 0.25rem 0.5rem;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.task-actions a:hover {
+    background-color: #0056b3;
+}
+
+/* User Group Styles */
+.user-group {
+    margin-bottom: 2rem;
+}
+
+.group-title {
+    font-size: 1.5em;
+    color: #333;
+    margin: 1rem 0 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #ddd;
+    text-align: center;
+}
