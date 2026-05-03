@@ -139,6 +139,19 @@ nav a:last-child:hover {
     border-left: 4px solid #007bff;
 }
 
+.task-card.status-in_progress {
+    background-color: #d4edda;
+    border-left-color: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3); }
+    50% { box-shadow: 0 2px 12px rgba(40, 167, 69, 0.5); }
+    100% { box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3); }
+}
+
 .task-card strong {
     display: block;
     margin-bottom: 0.5rem;
