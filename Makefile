@@ -18,7 +18,12 @@ setup-env:
 	# Add any environment variable setup commands here
 	@echo "Environment variables setup complete."
 
-run: setup-env
+run-dev: setup-env
 	@echo "Running application..."
 	@echo "==============================================================="
 	cd apps/task-board && python3 app.py
+
+run-prod: setup-env
+	@echo "Running application..."
+	@echo "==============================================================="
+	cd apps/task-board && gunicorn -w 4 -b 0.0.0.0:8000 app:app
