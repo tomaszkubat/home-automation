@@ -27,7 +27,7 @@ setup-env:
 	@echo "==============================================================="
 	@if [ ! -d "$(VENV_DIR)" ]; then \
 		echo "Creating virtual environment..."; \
-		python3 -m venv $(VENV_DIR); \
+		python3.10 -m venv $(VENV_DIR); \
 	fi
 	@echo "Installing dependencies..."
 	@$(VENV_DIR)/bin/pip install -r requirements.txt
