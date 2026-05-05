@@ -1,22 +1,43 @@
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL: help
+.PHONY: help setup-dev setup-env clean-env run-dev run-prod
 
-.PHONY: help setup-dev
+VENV_DIR := .venv
 
 help:
 	@echo "Available targets:"
-	@echo "  setup-dev   - Set up the development environment with pre-commit hooks."
+	@echo ""
+	@echo "RUNNING AN APPLICATION:"
+	@echo "  run-dev     - run the application in development mode."
+	@echo "  run-prod    - run the application in production mode."
+	@echo ""
+	@echo "SETTING UP ENVIRONMENT:"
+	@echo "  setup-dev   - set up the environment to develop an application."
+	@echo "  setup-env   - set up the environment to run an application."
+	@echo "  clean-env   - clean the environment."
+	@echo ""
 
-setup-dev:
+setup-dev: setup-env
 	@echo "Setting up development environment..."
 	@echo "==============================================================="
 	pre-commit install
-	@echo "Development environment setup complete."
+	@echo "Development environment setup completed."
 
 setup-env:
-	@echo "Setting up environment variables..."
+	@echo "Setting up environment ..."
 	@echo "==============================================================="
-	# Add any environment variable setup commands here
-	@echo "Environment variables setup complete."
+	@if [ ! -d "$(VENV_DIR)" ]; then \
+		echo "Creating virtual environment..."; \
+		python3.10 -m venv $(VENV_DIR); \
+	fi
+	@echo "Installing dependencies..."
+	@$(VENV_DIR)/bin/pip install -r requirements.txt
+	@echo "Environment setup completed."
+
+clean-env:
+	@echo "Cleaning environment..."
+	@echo "==============================================================="
+	rm -rf $(VENV_DIR)
+	@echo "Environment cleaned."
 
 run-dev: setup-env
 	@echo "Running application..."
@@ -26,4 +47,4 @@ run-dev: setup-env
 run-prod: setup-env
 	@echo "Running application..."
 	@echo "==============================================================="
-	cd apps/task-board && gunicorn -w 4 -b 0.0.0.0:8000 app:app
+	cd apps/task-board && ../../$(VENV_DIR)/bin/gunicorn -w 4 -b 0.0.0.0:8000 app:app
