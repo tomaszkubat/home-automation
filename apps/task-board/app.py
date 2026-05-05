@@ -158,7 +158,9 @@ def admin_reset_all():
     return redirect(url_for("admin_index"))
 
 
+with app.app_context():
+    db.create_all()
+
+# dev run
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
