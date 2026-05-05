@@ -3,29 +3,42 @@
 - [About](#about-this-project)
 - [Apps](#apps)
     - [Task Board](#task-board)
-    - [Points](#points)
+- [Requirements](#requirements)
+    - [Run requirements](#run-requirements)
+    - [Dev requirements](#dev-requirements)
 
 # About this project
 
-Aim of this project was to learn how to learn AI agents for building simple applications.
+I have started this project to learn AI usage aimed to building a simple applications.
 
 # Apps
 
 ## Task Board
 
 Simple GUI app to manage home tasks (tasks creation, assignment, realization, etc.).
+Users may get points for tasks finalization.
 
-## Points
-
-Simple GUI app to manage points (rewards) for family members.
+![Task Board GUI](./docs/task_board_gui.PNG)
 
 # Requirements
 
+## Run requirements
+
+- `python3` and `virtualenv` (the app is being run in the `virtualenv`)
+
+To setup the run requirements run:
+
+```bash
+make setup-env
+```
+
 ## Dev requirements
+
+All the [run requirements](#run-requirements) plus:
 
 - `pre-commit`
 
-To setup dev requiremetns run:
+To setup the dev requirements run:
 
 ```bash
 make setup-dev
